@@ -2,6 +2,8 @@ package org.superbiz.moviefun.blobstore;
 
 import org.apache.tika.Tika;
 import org.apache.tika.io.IOUtils;
+import org.superbiz.moviefun.blobstore.Blob;
+import org.superbiz.moviefun.blobstore.BlobStore;
 
 import java.io.File;
 import java.io.FileInputStream;

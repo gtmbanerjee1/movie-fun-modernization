@@ -1,6 +1,5 @@
 package org.superbiz.moviefun.albums;
 
-import org.apache.tika.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -9,14 +8,16 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.superbiz.moviefun.blobstore.Blob;
-import org.superbiz.moviefun.blobstore.BlobStore;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Optional;
+
+import org.apache.tika.io.IOUtils;
+import org.superbiz.moviefun.blobstore.Blob;
+import org.superbiz.moviefun.blobstore.BlobStore;
 
 import static java.lang.String.format;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
@@ -65,8 +66,8 @@ public class AlbumsController {
 
     @GetMapping("/{albumId}/cover")
     public HttpEntity<byte[]> getCover(@PathVariable long albumId) throws IOException, URISyntaxException {
-        Optional<Blob> maybeCoverBlob = blobStore.get(getCoverBlobName(albumId));
-        Blob coverBlob = maybeCoverBlob.orElseGet(this::buildDefaultCoverBlob);
+        Optional<org.superbiz.moviefun.blobstore.Blob> maybeCoverBlob = blobStore.get(getCoverBlobName(albumId));
+        org.superbiz.moviefun.blobstore.Blob coverBlob = maybeCoverBlob.orElseGet(this::buildDefaultCoverBlob);
 
         byte[] imageBytes = IOUtils.toByteArray(coverBlob.inputStream);
 
