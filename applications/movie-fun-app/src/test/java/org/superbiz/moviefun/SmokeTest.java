@@ -24,7 +24,7 @@ public class SmokeTest {
         assertThat(setupPage, containsString("I-Spy"));
         assertThat(setupPage, containsString("The Royal Tenenbaums"));
 
-        String movieFunPage = restTemplate.getForObject(url("/moviefun"), String.class);
+        String movieFunPage = restTemplate.getForObject(url("/org/superbiz/moviefun"), String.class);
 
         assertThat(movieFunPage, containsString("Wedding Crashers"));
         assertThat(movieFunPage, containsString("David Dobkin"));

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 
-public class FileStore implements BlobStore {
+public class FileStore implements org.superbiz.moviefun.blobstore.BlobStore {
 
     private final Tika tika = new Tika();
 

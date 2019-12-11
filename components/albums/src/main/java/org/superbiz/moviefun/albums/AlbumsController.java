@@ -9,25 +9,29 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.superbiz.moviefun.blobstore.Blob;
-import org.superbiz.moviefun.blobstore.BlobStore;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static java.lang.String.format;
-import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import org.superbiz.moviefun.blobstore.BlobStore;
+import org.superbiz.moviefun.blobstore.Blob;
 
-@Controller
+//import java.util.Optional;
+
+import static java.lang.String.format;
+//import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+
+@RestController
 @RequestMapping("/albums")
 public class AlbumsController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final AlbumsBean albumsBean;
-    private final BlobStore blobStore;
+    private final org.superbiz.moviefun.blobstore.BlobStore blobStore;
 
     public AlbumsController(AlbumsBean albumsBean, BlobStore blobStore) {
         this.albumsBean = albumsBean;
@@ -35,10 +39,15 @@ public class AlbumsController {
     }
 
 
+//    @GetMapping
+//    public String index(Map<String, Object> model) {
+//        model.put("albums", albumsBean.getAlbums());
+//        return "albums";
+//    }
+
     @GetMapping
-    public String index(Map<String, Object> model) {
-        model.put("albums", albumsBean.getAlbums());
-        return "albums";
+    public List<Album> index() {
+        return albumsBean.getAlbums();
     }
 
     @GetMapping("/{albumId}")
@@ -66,7 +75,7 @@ public class AlbumsController {
     @GetMapping("/{albumId}/cover")
     public HttpEntity<byte[]> getCover(@PathVariable long albumId) throws IOException, URISyntaxException {
         Optional<Blob> maybeCoverBlob = blobStore.get(getCoverBlobName(albumId));
-        Blob coverBlob = maybeCoverBlob.orElseGet(this::buildDefaultCoverBlob);
+        org.superbiz.moviefun.blobstore.Blob coverBlob = maybeCoverBlob.orElseGet(this::buildDefaultCoverBlob);
 
         byte[] imageBytes = IOUtils.toByteArray(coverBlob.inputStream);
 
@@ -79,7 +88,7 @@ public class AlbumsController {
 
 
     private void tryToUploadCover(@PathVariable Long albumId, @RequestParam("file") MultipartFile uploadedFile) throws IOException {
-        Blob coverBlob = new Blob(
+        org.superbiz.moviefun.blobstore.Blob coverBlob = new Blob(
             getCoverBlobName(albumId),
             uploadedFile.getInputStream(),
             uploadedFile.getContentType()
