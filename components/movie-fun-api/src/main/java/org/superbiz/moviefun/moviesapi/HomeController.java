@@ -41,9 +41,9 @@ public class HomeController {
             moviesClient.addMovie(movieInfo);
         }
 
-//        for (AlbumInfo albumInfo : albumFixtures.load()) {
-//            albumsClient.addAlbum(albumInfo);
-//        }
+        for (AlbumInfo albumInfo : albumFixtures.load()) {
+            albumsClient.addAlbum(albumInfo);
+        }
 
         model.put("movies", moviesClient.getMovies());
         model.put("albums", albumsClient.getAlbums());
